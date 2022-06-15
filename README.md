@@ -4,7 +4,10 @@
 Copy plugin into `ur0:/tai/`  
 Add the following to the `ur0:/tai/config.txt`
 ```
-*PCSB00561
+#Alien Shooter DLC unlocker
+#Uncomment appropriate TitleID section
+#*PCSB00561 #Europe
+*PCSE00445 #USA
 ur0:tai/alienhook.suprx
 ```
 You need to run the game atleast once with plugin and logged into PSN for DLCs to unlock!
