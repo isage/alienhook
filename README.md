@@ -10,7 +10,7 @@ Add the following to the `ur0:/tai/config.txt`
 *PCSE00445 #USA
 ur0:tai/alienhook.suprx
 ```
-You need to run the game atleast once with plugin and logged into PSN for DLCs to unlock!
+You need to run the game atleast once with plugin for DLCs to unlock.
 
 
 ## Notes
