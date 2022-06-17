@@ -39,7 +39,7 @@ typedef struct SceNpAuthRequestParameter {
     void *cbArg;
 } SceNpAuthRequestParameter;
 
-#define NP_HOOKS 2
+#define NP_HOOKS 3
 
 tai_hook_ref_t nphookref[NP_HOOKS];
 static SceUID nphook[NP_HOOKS];
@@ -63,6 +63,14 @@ int sceNpAuthCreateStartRequest_patched(const SceNpAuthRequestParameter *param)
     return ret;
 }
 
+int sceNpAuthGetTicket_patched(SceNpAuthRequestId id, void *buf, SceSize len)
+{
+    int ret = TAI_CONTINUE(int, nphookref[2], id, buf, len);
+    sceClibPrintf("sceNpAuthGetTicket %x\n", ret);
+    sceClibPrintf("Faking sceNpAuthGetTicket\n");
+    return 0;
+}
+
 int sceSysmoduleLoadModule_patched(SceSysmoduleModuleId id)
 {
     int ret = TAI_CONTINUE(int, lmhookref, id);
@@ -73,6 +81,9 @@ int sceSysmoduleLoadModule_patched(SceSysmoduleModuleId id)
 
         nphook[1] = taiHookFunctionImport(&nphookref[1], TAI_MAIN_MODULE, TAI_ANY_LIBRARY, 0xED42079F, sceNpAuthCreateStartRequest_patched);
         sceClibPrintf("sceNpAuthCreateStartRequest Hook: 0x%08X\n", nphook[1]);
+
+        nphook[2] = taiHookFunctionImport(&nphookref[2], TAI_MAIN_MODULE, TAI_ANY_LIBRARY, 0x59608D1C, sceNpAuthGetTicket_patched);
+        sceClibPrintf("sceNpAuthGetTicket Hook: 0x%08X\n", nphook[2]);
     }
     return ret;
 }
